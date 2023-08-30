@@ -1,40 +1,23 @@
+// importing express to create express server on node
 const express = require("express");
-// const axios = require("axios");
+
+// importing setHeader middleware
 const { setHeaders } = require("./middlewares/headers");
+
+// creating the instance of the express server
 const app = express();
+
+// added dotenv for GITHUB ACCESS TOKEN
 require("dotenv").config();
+
+// imported routes layer to handle app api routes
 const routes = require("./routes/index");
+
+// added headers middleware to authenticate the app with proper methods and origins
 app.use(setHeaders);
 
+// using routes layer to handle all the /api's
 app.use("/api/", routes);
-// Endpoint to get details about a commit by ID
-// app.get("/commit/:commitId", async (req, res) => {
-//   try {
-//     const commitId = req.params.commitId;
-//     // Use the GitHub API to fetch commit details by ID
-//     const response = await axios.get(
-//       `https://api.github.com/repos/owner/repo/commits/${commitId}`
-//     );
-//     const commitDetails = response.data;
-//     res.json(commitDetails);
-//   } catch (error) {
-//     res.status(500).json({ error: "An error occurred" });
-//   }
-// });
 
-// // Endpoint to get the diff of a commit from the previous one
-// app.get("/commit/:commitId/diff", async (req, res) => {
-//   try {
-//     const commitId = req.params.commitId;
-//     // Use the GitHub API to fetch commit comparison
-//     const response = await axios.get(
-//       `https://api.github.com/repos/owner/repo/compare/${commitId}~1...${commitId}`
-//     );
-//     const commitDiff = response.data;
-//     res.json(commitDiff);
-//   } catch (error) {
-//     res.status(500).json({ error: "An error occurred" });
-//   }
-// });
-
+// exporting app to create a http server in the index.js file
 module.exports = app;
